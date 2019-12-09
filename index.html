@@ -311,6 +311,28 @@
         </ul>
       </div>
     </section>
+    <div class="contact" style="padding-left: 10px;">
+      <form id="contactForm" action="https://contact-controller.bet.org.rs/email/send" method="POST">
+          <div class="row">
+              <div class="col-md-4">
+                  <input type="text" id="name" name="name" placeholder="Ime i Prezime">
+              </div>
+              <div class="col-md-4">
+                  <input type="text" id="subject" name="subject" placeholder="Naslov">
+              </div>
+              <div class="col-md-4">
+                  <input type="text" id="email" name="email" placeholder="E-mail">
+<!-- Linija ispod mora da ima validan mail na koji ce stizati poruka sa sajta-->
+<input type="hidden" id="sendto" name="sendto" value="tvoj@email.com"><br>
+<input type="hidden" id="sendfrom" name="sendfrom" value="contact@nekafirma.rs"><br>
+</div>
+</div>
+<textarea placeholder="Poruka" id="message" name="message" rows="8" cols="101"></textarea><br>
+<button class="btn-ghost pull-right" type="submit">Pošalji</button>
+</form>
+</div>
+
+
 
   </div>
 
@@ -352,6 +374,35 @@
     },100);
 
     
+
+</script>
+
+<script>
+ (function() {
+        $(document).ready(function() {
+            return $('#contact-form').submit(function(e) {
+                var email, message, name;
+                name = document.getElementById('inputName');
+                email = document.getElementById('inputEmail');
+                message = document.getElementById('inputMessage');
+                if (!name.value || !email.value || !message.value) {
+                    alertify.error('Molimo vas proverite');
+                    return false;
+                } else {
+                    $.ajax({
+                        method: 'POST',
+                        url: 'sendemail.php',
+                        data: $('#contact-form').serialize(),
+                        datatype: 'json'
+                    });
+                    e.preventDefault();
+                    $(this).get(0).reset();
+                    return alertify.success('Poruka je poslata');
+                }
+            });
+        });
+
+    }).call(this);
 
 </script>
 
